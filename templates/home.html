@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Lung Cancer Prediction</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet"/>
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet"/>
+  <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+  <style>
+    :root {
+      --bg-dark: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      --bg-light: linear-gradient(135deg, #dbefff, #e6f7ff, #ffffff);
+      --text-dark: #ffffff;
+      --text-light: #0f2027;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-dark);
+      transition: background 0.5s, color 0.5s;
+      overflow-x: hidden;
+    }
+
+    .dark-mode { background: var(--bg-dark); color: var(--text-dark); }
+    .light-mode { background: var(--bg-light); color: var(--text-light); }
+
+    #loader {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      background: #000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+
+    #loader.hidden {
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.5s ease;
+    }
+
+    header {
+      position: fixed;
+      width: 100%;
+      top: 0;
+      left: 0;
+      z-index: 999;
+      background: rgba(255, 255, 255, 0.07);
+      backdrop-filter: blur(20px);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 40px;
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    header nav a {
+      margin: 0 15px;
+      color: inherit;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    header nav a:hover { color: #00f0ff; }
+
+    .toggle-theme {
+      background: #fff;
+      color: #333;
+      border: none;
+      border-radius: 20px;
+      padding: 8px 18px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    section {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      text-align: center;
+      padding: 120px 20px;
+      scroll-margin-top: 100px;
+    }
+
+    .glass-card {
+      max-width: 720px;
+      padding: 50px 40px;
+      background: rgba(255, 255, 255, 0.07);
+      border-radius: 25px;
+      box-shadow: 0 10px 40px rgba(0, 255, 255, 0.2);
+      backdrop-filter: blur(15px);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      position: relative;
+      z-index: 10;
+    }
+
+    h1 {
+      font-size: 2.8rem;
+      background: linear-gradient(90deg, #00f0ff, #ff00c8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 20px;
+    }
+
+    h2 { font-size: 2rem; margin-bottom: 20px; }
+
+    p {
+      font-size: 1.1rem;
+      margin-bottom: 30px;
+      max-width: 600px;
+    }
+
+    .btn {
+      background: linear-gradient(90deg, #00f0ff, #ff00c8);
+      color: #fff;
+      padding: 15px 40px;
+      font-size: 1.1rem;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.4s ease;
+    }
+
+    .btn:hover {
+      transform: scale(1.08);
+      box-shadow: 0 0 25px rgba(255, 0, 255, 0.4), 0 0 50px rgba(0, 255, 255, 0.4);
+    }
+
+    .lung-image {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      opacity: 0.03;
+      max-width: 900px;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    canvas#particles-js {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+    }
+
+    .footer {
+      text-align: center;
+      padding: 20px;
+      color: #aaa;
+      font-size: 0.9rem;
+    }
+
+    #scrollTopBtn {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: #00f0ff;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 45px;
+      height: 45px;
+      font-size: 20px;
+      cursor: pointer;
+      display: none;
+      z-index: 1001;
+    }
+
+    @media (max-width: 768px) {
+      h1 { font-size: 2rem; }
+      p { font-size: 1rem; }
+      .btn { padding: 12px 30px; font-size: 1rem; }
+      header { flex-direction: column; gap: 10px; }
+    }
+  </style>
+</head>
+<body class="dark-mode">
+  <!-- Loader -->
+  <div id="loader">
+    <lottie-player src="https://assets10.lottiefiles.com/packages/lf20_j1adxtyb.json" background="transparent" speed="1" style="width: 200px; height: 200px;" loop autoplay></lottie-player>
+  </div>
+
+  <!-- Navbar -->
+  <header>
+    <div style="font-weight: 600;">🫁 Lung Cancer AI</div>
+    <nav>
+      <a href="#home">Home</a>
+      <a href="#features">Features</a>
+      <a href="#about">About</a>
+    </nav>
+    <button class="toggle-theme" onclick="toggleTheme()">🌓 Theme</button>
+  </header>
+
+  <!-- Backgrounds -->
+  <canvas id="particles-js"></canvas>
+  <img src="https://i.ibb.co/6bgH7xM/lungs-transparent.png" alt="Lungs" class="lung-image"/>
+
+  <!-- Sections -->
+  <section id="home" data-aos="fade-up">
+    <div class="glass-card">
+      <h1>Lung Cancer Prediction System</h1>
+      <p>AI-powered detection using health patterns and lifestyle risk. Fast, private, smart.</p>
+      <lottie-player src="https://assets3.lottiefiles.com/packages/lf20_3vbOcw.json" background="transparent" speed="1" style="width: 250px; height: 250px;" loop autoplay></lottie-player>
+      <a href="{{ url_for('form') }}"><button class="btn">Start Diagnosis</button></a>
+    </div>
+  </section>
+
+  <section id="features" data-aos="fade-up">
+    <h2>✨ Features</h2>
+    <p>⚡ Fast Predictions · 🔒 Privacy First · 📈 Smart Insights</p>
+    <lottie-player 
+      src="https://assets10.lottiefiles.com/packages/lf20_jcikwtux.json" 
+      background="transparent" speed="1" 
+      style="width: 250px; height: 250px;" 
+      loop autoplay>
+    </lottie-player>
+  </section>
+
+  <section id="about" data-aos="fade-up">
+    <h2>About Project</h2>
+    <p>This system uses deep learning to detect lung cancer risk. Designed for real-world healthcare use.</p>
+  </section>
+
+  <!-- Footer -->
+  <div class="footer">© 2025 | Developed by Marpini Himabindu</div>
+  <button id="scrollTopBtn" onclick="scrollToTop()">↑</button>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/particles.js"></script>
+  <script>
+    particlesJS("particles-js", {
+      particles: {
+        number: { value: 60 },
+        size: { value: 2 },
+        color: { value: "#ffffff" },
+        line_linked: { enable: true, color: "#ffffff", opacity: 0.1 },
+        move: { enable: true, speed: 1 }
+      }
+    });
+
+    function toggleTheme() {
+      document.body.classList.toggle('dark-mode');
+      document.body.classList.toggle('light-mode');
+    }
+
+    window.onscroll = function() {
+      const btn = document.getElementById("scrollTopBtn");
+      btn.style.display = document.documentElement.scrollTop > 100 ? "block" : "none";
+    };
+
+    function scrollToTop() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    window.onload = function() {
+      setTimeout(() => document.getElementById("loader").classList.add("hidden"), 1000);
+    };
+  </script>
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>AOS.init({ duration: 1000, once: true });</script>
+</body>
+</html>
