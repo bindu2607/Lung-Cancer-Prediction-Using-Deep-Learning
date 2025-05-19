@@ -79,8 +79,8 @@ Why it matters: Early risk estimation can guide users toward timely medical cons
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/bindu2607/lung-cancer-prediction-using-deep-learning
-cd lung-cancer-prediction-using-deep-learning
+git clone https://github.com/bindu2607/Lung-Cancer-Prediction-Using-Deep-Learning
+cd Lung-Cancer-Prediction-Using-Deep-Learning
 
 # 2. (Optional) Create a virtual environment
 python -m venv venv
