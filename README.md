@@ -4,6 +4,13 @@ A user-friendly Flask web application that predicts lung cancer risk levels (**L
 
 ---
 
+## 🚀 Live Demo
+
+👉 [View Deployed App](#)  
+
+https://lung-cancer-prediction-using-deep-wcfa.onrender.com/
+
+
 ## 🔍 Overview
 
 This project delivers an end-to-end solution for lung cancer risk assessment:
