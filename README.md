@@ -85,7 +85,7 @@ This project delivers an end-to-end solution for lung cancer risk assessment:
 
 ## ⚙️ Installation & Running Locally
 
-```bash
+
 # 1. Clone the repository
 git clone https://github.com/bindu2607/Lung-Cancer-Prediction-Using-Deep-Learning
 cd Lung-Cancer-Prediction-Using-Deep-Learning
