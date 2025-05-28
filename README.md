@@ -85,28 +85,44 @@ This project delivers an end-to-end solution for lung cancer risk assessment:
 
 ## ⚙️ Installation & Running Locally
 
-
-# 1. Clone the repository
-git clone https://github.com/bindu2607/Lung-Cancer-Prediction-Using-Deep-Learning
-cd Lung-Cancer-Prediction-Using-Deep-Learning
-
-
-# 2. (Optional) Create a virtual environment
-python -m venv venv
-source venv/bin/activate  # Windows: venv\Scripts\activate
-
-# 3. Install dependencies
-pip install -r requirements.txt
-
-# 4. Start the Flask web application
-python app.py
-
-# 5. (Optional) Re-train the deep learning model
-python train.py
-
-# 6. (Optional) Run prediction tests using dummy inputs
-python test.py
-
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/bindu2607/lung-cancer-predictor.git
+   ```
+2. Navigate to the project directory:
+   ```bash
+   cd lung-cancer-predictor
+   ```
+3.(Optional) Create a virtual environment
+ ```bash
+   python -m venv venv
+   ```
+   macOS/Linux:
+ ```bash
+   source venv/bin/activate
+   ```
+  Windows:
+ ```bash
+   venv\Scripts\activate
+   ```
+3. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+4. Start the Flask app
+ ```bash
+  python app.py
+   ```
+ ➜ Open http://127.0.0.1:5000 in your browser
+5. (Optional) Re‑train the model
+ ```bash
+   python train.py
+   ```
+6. (Optional) Run batch predictions/test
+ ```bash
+   python test.py
+   ```
+---
 📄 License
 
 This project is licensed under the MIT License. See the LICENSE file for details.
